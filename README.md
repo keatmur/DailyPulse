@@ -22,6 +22,23 @@
 4. Начните тестирование!
 
 📖 **Подробная инструкция:** [docs/BrowserStack-Testing.md](docs/BrowserStack-Testing.md)
+
+---
+
+## 🔧 Исправленные проблемы
+
+### ✅ Gradle конфигурация исправлена:
+- Убрано неправильное использование `libs.kotlinx.datetime`
+- Исправлен deprecated метод `targetHierarchy.default()`
+- Добавлено `kotlin.native.ignoreDisabledTargets=true` для скрытия предупреждений
+
+### ✅ iOS сборка настроена:
+- Используется `embedAndSignAppleFrameworkForXcode` для совместимости
+- Workflow настроен для macOS runners
+- Локальный скрипт работает на macOS
+
+### 🚀 Готово к использованию!
+Проект готов для создания .ipa файлов и тестирования в BrowserStack.
 Educational repo offered as material in the course Kotlin Multiplatform Masterclass.
 The course aims to teach the state-of-art KMP development. 
 

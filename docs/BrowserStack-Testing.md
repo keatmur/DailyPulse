@@ -8,15 +8,17 @@
 
 ### 1. Запуск workflow
 
-**Автоматический запуск:**
-- При push в ветки `main` или `develop`
-- При создании PR в `main`
-- Только если изменились файлы в `iosApp/` или `shared/`
-
-**Ручной запуск:**
+**Ручной запуск (рекомендуется для тестирования):**
 1. Перейдите в GitHub → Actions
 2. Выберите "Build iOS IPA for BrowserStack"
-3. Нажмите "Run workflow"
+3. Нажмите "Run workflow" → "Run workflow"
+
+**Автоматический запуск:**
+- При push в ветку `1_initial`
+- Только если изменились файлы в `iosApp/` или `shared/`
+
+**Отладочный workflow:**
+- "Test iOS Build (Debug)" - для проверки сборки без создания .ipa
 
 ### 2. Скачивание .ipa файла
 
@@ -133,14 +135,22 @@ CODE_SIGNING_REQUIRED=NO
 
 ## 🐛 Troubleshooting
 
-### Проблема: "No such file or directory"
+### Проблема: "iOS targets cannot be built on this machine"
+
+**Причина:** iOS можно собирать только на macOS, на Windows/Linux это невозможно.
+
+**Решение:** Используйте GitHub Actions с macOS runner или локальную сборку на Mac.
+
+### Проблема: "No such file or directory" (shared framework)
 
 ```bash
-# Проверьте, что shared framework собран
-ls -la shared/build/XCFrameworks/
+# Проверьте, что shared framework собран в правильном месте
+ls -la shared/build/xcode-frameworks/
 
-# Пересоберите если нужно
-./gradlew :shared:assembleSharedDebugXCFramework
+# Пересоберите используя правильную задачу
+export CONFIGURATION=Debug
+export SDK_NAME=iphonesimulator
+./gradlew :shared:embedAndSignAppleFrameworkForXcode
 ```
 
 ### Проблема: "Build failed"

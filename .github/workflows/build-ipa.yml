@@ -33,9 +33,17 @@ jobs:
     - name: Make gradlew executable
       run: chmod +x ./gradlew
       
-    # Сборка shared framework для iOS
+    # Сборка shared framework для iOS (используем embedAndSignAppleFrameworkForXcode)
     - name: Build Shared Framework for iOS
-      run: ./gradlew :shared:assembleSharedDebugXCFramework
+      run: ./gradlew :shared:embedAndSignAppleFrameworkForXcode
+      env:
+        CONFIGURATION: Debug
+        SDK_NAME: iphonesimulator
+        ARCHS: arm64
+        TARGET_BUILD_DIR: ${{ github.workspace }}/iosApp/build/Debug-iphonesimulator
+        FRAMEWORKS_FOLDER_PATH: iosApp.app/Frameworks
+        EXPANDED_CODE_SIGN_IDENTITY: ""
+        EXPANDED_CODE_SIGN_IDENTITY_NAME: ""
       
     # Сборка iOS приложения для симулятора
     - name: Build iOS App for Simulator

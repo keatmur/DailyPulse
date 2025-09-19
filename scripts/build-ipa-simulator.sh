@@ -34,7 +34,12 @@ cd "$PROJECT_ROOT"
 chmod +x ./gradlew
 
 echo "📦 Собираем shared framework для iOS..."
-./gradlew :shared:assembleSharedDebugXCFramework
+# Используем старый способ сборки для совместимости с существующим Xcode проектом
+export CONFIGURATION=$BUILD_TYPE
+export SDK_NAME=iphonesimulator
+export ARCHS=arm64
+
+./gradlew :shared:embedAndSignAppleFrameworkForXcode
 
 echo "🔨 Собираем iOS приложение для симулятора..."
 cd iosApp
