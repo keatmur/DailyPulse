@@ -1,4 +1,27 @@
-# DailyPulse
+# DailyPulse - Учебный KMP проект
+
+🍎 **iOS .ipa builds available via GitHub Actions for BrowserStack testing!**
+
+## 🚀 Быстрый старт для тестирования iOS
+
+### Автоматическая сборка .ipa файла:
+1. Перейдите в **Actions** → **"Build iOS IPA for BrowserStack"**
+2. Нажмите **"Run workflow"** → **"Run workflow"**
+3. Дождитесь завершения (5-10 минут)
+4. Скачайте **"ios-simulator-ipa"** из Artifacts
+
+### Локальная сборка (только macOS):
+```bash
+./scripts/build-ipa-simulator.sh
+```
+
+### Тестирование в BrowserStack:
+1. Откройте [BrowserStack Live](https://live.browserstack.com/)
+2. Выберите iOS Simulator
+3. Загрузите `iosApp-simulator.ipa`
+4. Начните тестирование!
+
+📖 **Подробная инструкция:** [docs/BrowserStack-Testing.md](docs/BrowserStack-Testing.md)
 Educational repo offered as material in the course Kotlin Multiplatform Masterclass.
 The course aims to teach the state-of-art KMP development. 
 

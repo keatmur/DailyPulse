@@ -22,7 +22,15 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
+            isStatic = true // Для лучшей совместимости с iOS
         }
+    }
+
+    // Создание XCFramework для iOS
+    task("createXCFramework") {
+        dependsOn("assembleSharedReleaseXCFramework")
+        group = "build"
+        description = "Create XCFramework for iOS"
     }
 
     sourceSets {
