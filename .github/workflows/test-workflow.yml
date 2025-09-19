@@ -1,0 +1,47 @@
+name: Test Workflow (Debug)
+
+on:
+  workflow_dispatch:  # Только ручной запуск
+  push:
+    branches: [ 1_initial ]
+
+jobs:
+  test-basic:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Test basic functionality
+      run: |
+        echo "✅ Workflow запущен успешно!"
+        echo "📁 Текущая директория: $(pwd)"
+        echo "📋 Файлы в корне:"
+        ls -la
+        echo "📋 GitHub Actions workflows:"
+        ls -la .github/workflows/
+        echo "📋 Scripts:"
+        ls -la scripts/ || echo "Нет папки scripts"
+        
+  test-macos:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Test macOS environment
+      run: |
+        echo "✅ macOS runner работает!"
+        echo "📱 Xcode version:"
+        xcodebuild -version
+        echo "📱 Available simulators:"
+        xcrun simctl list devices | grep iPhone | head -5
+        echo "☕ Java version:"
+        java -version
+        echo "📋 Scripts:"
+        ls -la scripts/
+        echo "🔧 Making script executable:"
+        chmod +x scripts/build-ipa-simulator.sh
+        echo "✅ Script is now executable"
