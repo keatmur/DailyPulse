@@ -1,0 +1,40 @@
+name: iOS Debug Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode.app
+
+    - name: Build iOS App
+      run: |
+        cd iosApp
+        xcodebuild -scheme "iosApp" \
+          -configuration Debug \
+          -sdk iphonesimulator \
+          -destination 'platform=iOS Simulator,name=iPhone 14,OS=latest' \
+          build
+
+    - name: Package App
+      run: |
+        cd iosApp/build/Debug-iphonesimulator
+        mkdir Payload
+        cp -r iosApp.app Payload
+        zip -r iosApp.ipa Payload
+
+    - name: Upload IPA
+      uses: actions/upload-artifact@v3
+      with:
+        name: debug-ipa
+        path: iosApp/build/Debug-iphonesimulator/iosApp.ipa
