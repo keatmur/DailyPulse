@@ -1,4 +1,4 @@
-name: iOS Debug Build Simple
+name: iOS Debug Build
 
 on:
   push:
@@ -6,34 +6,44 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      build_type:
+        type: choice
+        options:
+          - Debug
+        default: Debug
+        description: Тип сборки
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  build_debug_ios_app:
+    name: Build iOS Debug App
     runs-on: macos-latest
-    
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-        
-    - name: Build iOS Debug
-      uses: touchlab/kmp-build-ios-app@v1.0.2
-      with:
-        project-path: 'iosApp'
-        scheme: 'iosApp'
-        configuration: 'Debug'
-        export-method: 'development'
-        
-    - name: Upload IPA
-      uses: actions/upload-artifact@v4
-      with:
-        name: ios-debug-app
-        path: '*.ipa'
+      - name: Set Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode_version: latest-stable
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build iOS Debug App
+        uses: HekmatullahAmin/mifos-x-actionhub-build-ios-app@enhance-ios-build-action
+        with:
+          build_type: Debug
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-debug-app
+          path: '*.ipa'
